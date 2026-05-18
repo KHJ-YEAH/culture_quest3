@@ -11945,6 +11945,150 @@ body {
   50%      { opacity: 0.6; }
 }
 
+/* =========================================================
+   V55 — TopNav quest pills: wider spacing + Pick badge + caption
+   ========================================================= */
+.topnav .questbar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  margin: 0 24px;
+}
+.topnav .questbar {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px !important;     /* spread out (was 8px) */
+  align-items: center;
+}
+.topnav .questbar .qb-pill {
+  position: relative;
+  padding: 7px 14px 7px 11px !important;
+  gap: 6px !important;
+}
+/* Pick badge: appears next to picked quest pill label */
+.topnav .qb-pill .pick-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  padding: 1.5px 7px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #FBBF24, #F59E0B);
+  color: #2D1B3D;
+  box-shadow:
+    0 2px 8px -1px rgba(251, 191, 36, 0.55),
+    0 0 0 1.5px rgba(255, 255, 255, 0.20) inset;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  line-height: 1.4;
+  font-family: var(--f-display);
+  font-style: italic;
+  transform: translateY(-0.5px);
+  animation: pick-glow 2.6s ease-in-out infinite;
+}
+.topnav .qb-pill .pick-badge.pick-common-badge {
+  background: linear-gradient(135deg, #34D399, #10B981);
+  color: #fff;
+  box-shadow:
+    0 2px 8px -1px rgba(52, 211, 153, 0.55),
+    0 0 0 1.5px rgba(255, 255, 255, 0.20) inset;
+  font-style: normal;
+}
+@keyframes pick-glow {
+  0%, 100% { box-shadow: 0 2px 8px -1px rgba(251, 191, 36, 0.55), 0 0 0 1.5px rgba(255, 255, 255, 0.2) inset; }
+  50%      { box-shadow: 0 3px 14px 0 rgba(251, 191, 36, 0.85), 0 0 0 1.5px rgba(255, 255, 255, 0.3) inset; }
+}
+
+/* Picked pills get a subtle outer ring for emphasis */
+.topnav .qb-pill.picked:not(.active) {
+  background: rgba(251, 191, 36, 0.08) !important;
+  border-color: rgba(251, 191, 36, 0.32) !important;
+}
+.topnav .qb-pill.picked.pick-common:not(.active) {
+  background: rgba(52, 211, 153, 0.07) !important;
+  border-color: rgba(52, 211, 153, 0.32) !important;
+}
+.topnav .qb-pill.picked:hover {
+  background: rgba(251, 191, 36, 0.15) !important;
+}
+
+/* Caption below pills — small hint text */
+.topnav .questbar-caption {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin-top: 2px;
+  font-weight: 500;
+}
+.topnav .questbar-caption strong {
+  font-weight: 800;
+  color: #FBBF24;        /* gold accent for "조직장 선택 N개" */
+  margin: 0 1px;
+}
+.topnav .questbar-caption strong.caption-common {
+  color: #6EE7B7;        /* green accent for "공통 N개" */
+}
+
+/* =========================================================
+   V56 — Phone rule titles: BOTH in same red tone + bigger
+   ========================================================= */
+.pc-rule-bigger {
+  font-size: 18.5px !important;        /* was 16.5px → bigger */
+  font-weight: 800 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -0.015em !important;
+  color: #C1352D !important;            /* unified deep red */
+}
+/* Both principles get the same red tone */
+.phone-chats > .phone-frame:nth-child(1) .pc-rule-bigger,
+.phone-chats > .phone-frame:nth-child(2) .pc-rule-bigger {
+  color: #C1352D !important;            /* unified red */
+}
+
+/* =========================================================
+   V56 — TopNav: brand | questbar | caption all on ONE horizontal line
+   ========================================================= */
+.topnav {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 18px;
+}
+.topnav .brand {
+  flex-shrink: 0;       /* don't shrink brand */
+}
+/* Remove the column wrapper — flatten */
+.topnav .questbar-wrap {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 24px !important;
+  flex: 1;
+  margin: 0 !important;
+  justify-content: space-between !important;
+}
+.topnav .questbar {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;  /* hug toward brand on the left */
+  gap: 14px !important;
+  flex-shrink: 0;
+  align-items: center;
+}
+.topnav .questbar-caption {
+  margin-top: 0 !important;
+  text-align: right !important;
+  flex-shrink: 0;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
   </style>
 </head>
 <body>
@@ -14757,44 +14901,60 @@ function Tabs({ tab, setTab }) {
 // ============================================================
 
 function TopNav() {
+  // 5 culture quest areas:
+  //   • 4 of them (소통과 인정 ~ 성장과 육성) are 조직장 선택 pool — leader picks 2
+  //   • 협업과 시너지 is 공통영역 (mandatory for ALL — auto-picked)
+  // For 우리 조직: 조직장 picked 소통과 인정 + 칭찬과 격려, plus 협업과 시너지 (공통)
   const quests = [
-    { n: "1", k: "소통과 인정", active: true,                month: "7" },
-    { n: "2", k: "존중과 배려", locked: true, openMonth: "8" },
-    { n: "3", k: "칭찬과 격려", locked: true, openMonth: "9" },
-    { n: "4", k: "성장과 육성", locked: true, openMonth: "10" },
-    { n: "5", k: "협업과 시너지", locked: true, openMonth: "11" },
+    { n: "1", k: "소통과 인정",  active: true,  month: "7",                       picked: true,  pickKind: "leader" },
+    { n: "2", k: "존중과 배려",  locked: true,  openMonth: "8",                                                       },
+    { n: "3", k: "칭찬과 격려",  locked: true,  openMonth: "9",                   picked: true,  pickKind: "leader" },
+    { n: "4", k: "성장과 육성",  locked: true,  openMonth: "10",                                                      },
+    { n: "5", k: "협업과 시너지", locked: true, openMonth: "11",                   picked: true,  pickKind: "common" },
   ];
   const handleLockedClick = (q) => {
     if (q.locked && window.showToast) {
       window.showToast(`${q.openMonth}월에 오픈됩니다`);
     }
   };
+  const pickedLeader = quests.filter(q => q.pickKind === "leader").length;
+  const pickedCommon = quests.filter(q => q.pickKind === "common").length;
   return (
     <div className="topnav">
       <div className="brand">
         <div className="mark">5</div>
         High-5 <em>Culture Quest</em>
       </div>
-      <div className="questbar">
-        {quests.map((q) => (
-          <button
-            key={q.n}
-            className={`qb-pill ${q.active ? "active" : ""} ${q.locked ? "locked" : ""}`}
-            onClick={() => handleLockedClick(q)}
-          >
-            <span className="qb-dot">
-              {q.locked ? (
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="5" y="11" width="14" height="10" rx="2"/>
-                  <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
-                </svg>
-              ) : (
-                q.n
+      <div className="questbar-wrap">
+        <div className="questbar">
+          {quests.map((q) => (
+            <button
+              key={q.n}
+              className={`qb-pill ${q.active ? "active" : ""} ${q.locked ? "locked" : ""} ${q.picked ? "picked" : ""} ${q.pickKind === "common" ? "pick-common" : ""}`}
+              onClick={() => handleLockedClick(q)}
+            >
+              <span className="qb-dot">
+                {q.locked ? (
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="5" y="11" width="14" height="10" rx="2"/>
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+                  </svg>
+                ) : (
+                  q.n
+                )}
+              </span>
+              {q.k}
+              {q.picked && (
+                <span className={`pick-badge ${q.pickKind === "common" ? "pick-common-badge" : ""}`} title={q.pickKind === "common" ? "공통 영역 (모든 조직 필수)" : "조직장이 선택한 영역"}>
+                  {q.pickKind === "common" ? "공통" : "Pick"}
+                </span>
               )}
-            </span>
-            {q.k}
-          </button>
-        ))}
+            </button>
+          ))}
+        </div>
+        <div className="questbar-caption">
+          우리 조직의 실천 영역은 <strong>조직장 선택 {pickedLeader}개</strong>, <strong className="caption-common">공통 {pickedCommon}개</strong>입니다
+        </div>
       </div>
     </div>
   );
