@@ -12100,6 +12100,67 @@ body {
   text-shadow: 0 0 6px rgba(251, 191, 36, 0.25);
 }
 
+/* =========================================================
+   V58 — Character card: highlight rank in pale yellow
+   ========================================================= */
+.char .cs-rank.rank-highlight,
+.side .char .cs-rank.rank-highlight {
+  color: #FBBF24 !important;            /* warm amber */
+  font-weight: 800 !important;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
+}
+.char .cs-rank.rank-highlight em,
+.side .char .cs-rank.rank-highlight em {
+  color: rgba(251, 191, 36, 0.7) !important;
+  font-weight: 600 !important;
+}
+
+/* =========================================================
+   V58 — Chat keyword color: deeper, more vivid YELLOW (was amber-orange)
+   ========================================================= */
+.kw-cyan,
+.right .chat-card .kw-cyan {
+  background: rgba(250, 204, 21, 0.28) !important;       /* yellow-300 */
+  color: #FCD34D !important;                              /* bright yellow-300 (visible on dark) */
+  border-bottom: 1px dashed rgba(250, 204, 21, 0.7) !important;
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.45);
+  font-weight: 700;
+}
+
+/* =========================================================
+   V59 — Rank em (unit "/ 7,000명", "/ 42팀") in WHITE for contrast
+         against the bright yellow rank number
+   ========================================================= */
+.char .cs-rank.rank-highlight em,
+.side .char .cs-rank.rank-highlight em {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-weight: 500 !important;
+  text-shadow: none;
+}
+
+/* =========================================================
+   V59 — Calendar title font: unify with other status card titles
+   (use uppercase letter-spaced sans-serif, NOT serif display)
+   ========================================================= */
+.right .calendar .cal-head .m {
+  font-family: var(--f-sans, "Pretendard", -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+/* The "2026.07" subtitle next to title — small, italic */
+.right .calendar .cal-head .m em {
+  font-family: var(--f-display, "DM Serif Display", "Cormorant Garamond", serif) !important;
+  font-size: 12px !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: none !important;
+  color: var(--coral) !important;
+}
+
   </style>
 </head>
 <body>
@@ -12134,11 +12195,11 @@ window.APP_DATA = {
   // === MONTHLY MISSIONS — v55 mechanics (7 items, points per user spec) ===
   missions: [
     { id: 1, label: "리더 메시지 댓글쓰기",       accum: true,  perAction: 100, accumPts: 0, count: 0, done: false },
-    { id: 2, label: "공감 누르기",                accum: true,  perAction: 30,  accumPts: 0, count: 0, done: false },
+    { id: 2, label: "공감 누르기",                accum: true,  perAction: 50,  accumPts: 0, count: 0, done: false },
     { id: 3, label: "구성원 메시지 쓰기",         accum: true,  perAction: 200, accumPts: 0, count: 0, done: false },
     { id: 4, label: "스티커 붙이기",       accum: true,  perAction: 300, accumPts: 0, count: 0, done: false },
-    { id: 5, label: "그라운드룰 실천방식 작성",   accum: true,  perAction: 500, accumPts: 0, count: 0, done: false },
-    { id: 6, label: "팀장 그라운드룰 확정",       accum: false, fixed: 500,                  count: 0, done: false },
+    { id: 5, label: "실천방식 작성",   accum: true,  perAction: 500, accumPts: 0, count: 0, done: false },
+    { id: 6, label: "그라운드룰 확정",       accum: false, fixed: 500,                  count: 0, done: false },
     { id: 7, label: "인증사진 업로드",            accum: true,  perAction: 100, accumPts: 0, count: 0, done: false },
   ],
   streakDailyPoints: 50,
@@ -12268,8 +12329,8 @@ const LEADERS = [
     ],
   },
   {
-    name: "박지훈 팀장",
-    role: "전략기획팀",
+    name: "박지훈 조직장",
+    role: "전략기획본부",
     initial: "지",
     msg: "우리 팀의 결정 속도가 빨라진 건 정보 공유 덕분이었어요. 이번 달 그라운드룰은 ‘일찍 공유, 자주 공유’가 핵심이 됐으면 합니다.",
     likes: 182,
@@ -12280,15 +12341,15 @@ const LEADERS = [
     ],
   },
   {
-    name: "이아름 팀장",
-    role: "디자인팀",
+    name: "이아름 조직장",
+    role: "디자인본부",
     initial: "아",
     msg: "다른 의견을 듣고 ‘그럴 수도 있겠다’라고 한 번 더 생각해 보는 한 달. 결론을 미루지 말고, 의견의 차이를 인정하는 연습을 함께 해봐요.",
     likes: 156,
     accent: "var(--mint)",
     comments: [
       { txt: "‘그럴 수도 있겠다’ — 이번 달 입버릇으로 삼겠습니다 😊" },
-      { txt: "디자인팀의 다양한 관점, 항상 배워갑니다." },
+      { txt: "디자인본부의 다양한 관점, 항상 배워갑니다." },
     ],
   },
 ];
@@ -13129,10 +13190,10 @@ function ProposalsList({ proposals, onLeaderSelect, leaderSelectedId, onUpdatePr
       <header className="spread" style={{marginBottom: 12}}>
         <div>
           <div className="step-label">Step 03</div>
-          <h2 style={{margin:0, fontFamily:"var(--f-display)", fontSize:24}}>우리팀이 작성한 실천 제안</h2>
+          <h2 style={{margin:0, fontFamily:"var(--f-display)", fontSize:24}}>우리조직이 작성한 실천 제안</h2>
           <p style={{margin:"6px 0 0", fontSize:13.5, color:"var(--ink-3)"}}>
             동료들의 실천 제안에 공감해 주세요. 가장 많은 공감을 받은 제안이 우리의 그라운드 룰이 됩니다.
-            {isLeader && <span style={{color:'var(--coral)', fontWeight:700, marginLeft:6}}>· 팀장님은 제안 카드를 클릭하면 최종 그라운드룰로 옮겨집니다.</span>}
+            {isLeader && <span style={{color:'var(--coral)', fontWeight:700, marginLeft:6}}>· 조직장은 제안 카드를 클릭하면 최종 그라운드룰로 옮겨집니다.</span>}
           </p>
         </div>
       </header>
@@ -13185,14 +13246,14 @@ function ProposalsList({ proposals, onLeaderSelect, leaderSelectedId, onUpdatePr
                       key={key}
                       className={`prop ${isSelected ? 'leader-selected' : ''} ${p.me ? 'is-mine' : ''} ${isLeader && !isEditing ? 'leader-clickable' : ''} ${isEditing ? 'is-editing' : ''}`}
                       onClick={handleCardClick}
-                      title={isLeader && !isEditing ? "팀장 권한으로 선택" : undefined}
+                      title={isLeader && !isEditing ? "조직장 권한으로 선택" : undefined}
                     >
                       <div className="top">
                         {p.me && <span className="me-tag">나의 제안</span>}
                         {isSelected && (
                           <span className="prop-selected-tag">
                             <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            팀장 선택
+                            조직장 선택
                           </span>
                         )}
                         <span className="top-spacer" />
@@ -13467,9 +13528,9 @@ function ConfirmStep({ prefill }) {
       <header className="spread" style={{marginBottom: 12}}>
         <div>
           <div className="step-label">Step 04</div>
-          <h2 style={{margin:0, fontFamily:"var(--f-display)", fontSize:24}}>우리팀 최종 그라운드룰</h2>
+          <h2 style={{margin:0, fontFamily:"var(--f-display)", fontSize:24}}>우리조직 최종 그라운드룰</h2>
           <p style={{margin:"6px 0 0", fontSize:13.5, color:"var(--ink-3)"}}>
-            팀장님이 동료들의 제안 중 1개를 선택하면 이 칸에 자동으로 옮겨집니다. <b>여러 개도 추가할 수 있어요.</b>
+            조직장이 동료들의 제안 중 1개를 선택하면 이 칸에 자동으로 옮겨집니다. <b>여러 개도 추가할 수 있어요.</b>
           </p>
         </div>
       </header>
@@ -13478,11 +13539,11 @@ function ConfirmStep({ prefill }) {
         <div className="cs-head">
           <div className="leader-profile">
             <div className="lp-av lp-av-photo">
-              <img src={window.personPhoto("박소통", 80)} alt="박소통 팀장"
+              <img src={window.personPhoto("박소통", 80)} alt="박소통 조직장"
                    onError={(e) => { e.currentTarget.style.display = 'none'; }} />
             </div>
             <div className="lp-info">
-              <div className="lp-name">박소통 팀장</div>
+              <div className="lp-name">박소통 조직장</div>
               <div className="lp-team">컬처마케팅팀</div>
             </div>
           </div>
@@ -13594,7 +13655,7 @@ function ConfirmStep({ prefill }) {
           </div>
           <div className="confirm-action">
             <button className="btn primary" onClick={handleConfirm} disabled={!canConfirm}>
-              {hasAny ? '+ 그라운드룰 추가 확정' : '✓ 팀장 권한으로 확정하기'} <window.Icon.Arrow />
+              {hasAny ? '+ 그라운드룰 추가 확정' : '✓ 조직장 권한으로 확정하기'} <window.Icon.Arrow />
             </button>
           </div>
         </div>
@@ -13945,13 +14006,13 @@ function CharacterCard() {
           <span className="cs-l">나의 포인트</span>
           <span className="cs-v">{pts.toLocaleString()}<em>P</em></span>
           <span className="cs-sep">·</span>
-          <span className="cs-rank">{D.user.rank.toLocaleString()}<em>위 / {D.user.totalQuesters.toLocaleString()}명</em></span>
+          <span className="cs-rank rank-highlight">{D.user.rank.toLocaleString()}위<em> / {D.user.totalQuesters.toLocaleString()}명</em></span>
         </div>
         <div className="cs-line">
-          <span className="cs-l">팀 평균 포인트</span>
+          <span className="cs-l">조직 평균</span>
           <span className="cs-v">{D.user.teamPoints.toLocaleString()}<em>P</em></span>
           <span className="cs-sep">·</span>
-          <span className="cs-rank">{D.user.teamRank}<em>위 / {D.user.teamTotal}팀</em></span>
+          <span className="cs-rank rank-highlight">{D.user.teamRank}위<em> / {D.user.teamTotal}팀</em></span>
         </div>
       </div>
     </div>
@@ -14071,7 +14132,7 @@ function StreakCard() {
       </div>
       <div className="streak-reward">
         <Icon.Sparkle />
-        <span>5일 누적 참여 시 <strong>+{D.streakDailyPoints}P</strong> 추가</span>
+        <span>1일 참여 <strong>+100P</strong>, 5일 연속 <strong>+500P</strong></span>
       </div>
     </div>
   );
@@ -14140,7 +14201,7 @@ function ChatCard() {
     { id: 7, who: "system", txt: "TOP 3 후보가 RULE 탭으로 전송되었습니다.", scope: "system", time: "11:18" },
     { id: 8, who: "한지민", role: "책임", txt: "스티커 받으셨어요?", bg: AV_BG("한지민"), initial: "한", scope: "all", time: "11:35" },
     { id: 9, who: "박은영", role: "책임", txt: "1on1 미팅 일정 공유드려요!", bg: AV_BG("박은영"), initial: "박", scope: "team", time: "11:50" },
-    { id: 10, who: "system", txt: "박소통 팀장님이 그라운드룰을 확정했습니다", scope: "system", time: "12:02" },
+    { id: 10, who: "system", txt: "박소통 조직장이 그라운드룰을 확정했습니다", scope: "system", time: "12:02" },
   ];
 
   const [msgs, setMsgs] = useState(initialMsgs);
@@ -14214,7 +14275,7 @@ function ChatCard() {
       </div>
       <div className="chat-tabs">
         <button className={`ct ${filter === "all" ? 'active' : ''}`} onClick={() => setFilter("all")}>전체</button>
-        <button className={`ct ${filter === "team" ? 'active' : ''}`} onClick={() => setFilter("team")}>우리팀</button>
+        <button className={`ct ${filter === "team" ? 'active' : ''}`} onClick={() => setFilter("team")}>우리조직</button>
         <button className={`ct ${filter === "system" ? 'active' : ''}`} onClick={() => setFilter("system")}>시스템</button>
       </div>
       <div className="chat-feed scroll-y" ref={feedRef}>
@@ -14262,7 +14323,7 @@ function LeaderBanner() {
     <div className="leader-banner">
       <div className="icon"><Icon.Crown /></div>
       <div>
-        <b>팀장 전용 뷰</b> · 우리 팀 참여 현황을 한눈에 확인할 수 있어요.
+        <b>조직장 전용 뷰</b> · 우리 조직 참여 현황을 한눈에 확인할 수 있어요.
       </div>
     </div>
   );
@@ -14328,7 +14389,7 @@ function ParticipationCard() {
                       <rect x="5" y="11" width="14" height="10" rx="2"/>
                       <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
                     </svg>
-                    팀장 권한
+                    조직장 권한
                   </span>
                 )}
                 <span className={`pa-chev ${missOpen ? 'open' : ''}`}>
@@ -14354,7 +14415,7 @@ function ParticipationCard() {
                         <rect x="5" y="11" width="14" height="10" rx="2"/>
                         <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
                       </svg>
-                      팀장 권한이 필요합니다
+                      조직장 권한이 필요합니다
                     </div>
                   )}
                 </div>
